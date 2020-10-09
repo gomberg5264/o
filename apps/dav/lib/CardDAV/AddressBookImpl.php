@@ -159,8 +159,7 @@ class AddressBookImpl implements IAddressBook {
 					}
 					$vCard->add($property);
 				}
-			}
-			elseif ($key !== 'URI') {
+			} elseif ($key !== 'URI') {
 				$vCard->$key = $vCard->createProperty($key, $value);
 			}
 		}
