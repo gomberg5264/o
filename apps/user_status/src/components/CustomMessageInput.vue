@@ -23,11 +23,17 @@
 		class="custom-input__form"
 		@submit.prevent>
 		<input
+			ref="input"
 			maxlength="80"
+			:disabled="disabled"
 			:placeholder="$t('user_status', 'What\'s your status?')"
 			type="text"
 			:value="message"
-			@change="change">
+			:class="{'invalid': !message}"
+			@change="change"
+			@keyup="change"
+			@paste="change"
+			@keyup.enter="submit">
 	</form>
 </template>
 
@@ -40,8 +46,16 @@ export default {
 			required: true,
 			default: () => '',
 		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	methods: {
+		focus() {
+			this.$refs.input.focus()
+		},
+
 		/**
 		 * Notifies the parent component about a changed input
 		 *
@@ -49,6 +63,10 @@ export default {
 		 */
 		change(event) {
 			this.$emit('change', event.target.value)
+		},
+
+		submit(event) {
+			this.$emit('submit', event.target.value)
 		},
 	},
 }
